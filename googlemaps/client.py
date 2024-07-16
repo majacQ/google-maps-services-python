@@ -22,6 +22,7 @@ HTTP requests).
 
 import base64
 import collections
+import logging
 from datetime import datetime
 from datetime import timedelta
 import functools
@@ -40,6 +41,8 @@ try: # Python 3
     from urllib.parse import urlencode
 except ImportError: # Python 2
     from urllib import urlencode
+
+logger = logging.getLogger(__name__)
 
 _X_GOOG_MAPS_EXPERIENCE_ID = "X-Goog-Maps-Experience-ID"
 _USER_AGENT = "GoogleGeoApiClientPython/%s" % googlemaps.__version__
@@ -177,7 +180,6 @@ class Client:
             "verify": True,  # NOTE(cbro): verify SSL certs.
         })
         
-        self.queries_quota : int
         self.queries_per_second = queries_per_second
         self.queries_per_minute = queries_per_minute
         try: 
@@ -189,7 +191,7 @@ class Client:
                 self.queries_quota = math.floor(self.queries_per_minute/60)
             else:
                 sys.exit("MISSING VALID NUMBER for queries_per_second or queries_per_minute")
-            print("\n","API queries_quota:", self.queries_quota,"\n")
+            logger.info("API queries_quota: %s", self.queries_quota)
 
         except NameError:
             sys.exit("MISSING VALUE for queries_per_second or queries_per_minute")

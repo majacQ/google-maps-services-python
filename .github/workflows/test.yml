@@ -1,4 +1,4 @@
-# Copyright 2020 Google LLC
+# Copyright 2023 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,10 +32,10 @@ jobs:
         python-version: ["3.7", "3.8", "3.9", "3.10"]
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     
     - name: Setup Python
-      uses: "actions/setup-python@v1"
+      uses: "actions/setup-python@v3"
       with:
         python-version: "${{ matrix.python-version }}"
     
@@ -51,4 +51,6 @@ jobs:
     needs: [matrix]
     runs-on: ubuntu-latest
     steps:
-    - run: echo "Test matrix finished"
+    - run: |
+        echo "Test matrix finished";
+        exit 0;
